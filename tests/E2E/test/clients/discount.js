@@ -17,12 +17,11 @@ class Discount extends CommonClient {
    * @param value
    * @returns {*}
    */
-  chooseCustomer(selectorInput, selectorOption, value) {
-    return this.client
-      .waitAndSetValue(selectorInput, value)
-      .pause(2000)
-      .keys('ArrowDown')
-      .waitForVisibleAndClick(selectorOption);
+  async chooseCustomer(selectorInput, selectorOption, value) {
+    await this.waitAndSetValue(selectorInput, value);
+    await this.pause(2000);
+    await page.keyboard.press('ArrowDown');
+    await this.waitForVisibleAndClick(selectorOption);
   }
 
   setPromoCode(selectorInput, selectorButton, value) {

@@ -57,11 +57,11 @@ module.exports = {
       });
       test('should click on "CONDITIONS" tab', () => client.waitForExistAndClick(DiscountSubMenu.cartRules.conditions_tab));
       test('should choose the customer "John Doe"', () => client.chooseCustomer(DiscountSubMenu.cartRules.single_customer_input, DiscountSubMenu.cartRules.first_result_option, cartRuleData.customer_email));
-      test('should set the "Minimum amount" input', () => client.waitAndSetValue(DiscountSubMenu.cartRules.minimum_amount_input, cartRuleData.minimum_amount));
+      test('should set the "Minimum amount" input', () => client.waitAndSetValue(DiscountSubMenu.cartRules.minimum_amount_input, cartRuleData.minimum_amount.toString()));
       test('should click on "ACTIONS" tab', () => client.waitForExistAndClick(DiscountSubMenu.cartRules.actions_tab));
       test('should switch the "Free shipping" to "Yes"', () => client.waitForExistAndClick(DiscountSubMenu.cartRules.free_shipping));
       test('should click on "' + cartRuleData.type + '" radio', () => client.waitForExistAndClick(DiscountSubMenu.cartRules.apply_discount_radio.replace("%T", cartRuleData.type), 2000));
-      test('should set the "reduction" ' + cartRuleData.type + ' value', () => client.waitAndSetValue(DiscountSubMenu.cartRules.reduction_input.replace("%T", cartRuleData.type), cartRuleData.reduction, 2000));
+      test('should set the "reduction" ' + cartRuleData.type + ' value', () => client.waitAndSetValue(DiscountSubMenu.cartRules.reduction_input.replace("%T", cartRuleData.type), cartRuleData.reduction.toString(), 2000));
       test('should click on "Save" button', () => client.waitForExistAndClick(DiscountSubMenu.cartRules.save_button, 2000));
       test('should verify the appearance of the green validation', () => client.checkTextValue(CatalogPage.success_panel, '×\nSuccessful creation.'));
     }, 'discount');

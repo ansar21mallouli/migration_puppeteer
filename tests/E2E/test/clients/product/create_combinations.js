@@ -5,21 +5,20 @@ var path = require('path');
 
 class CreateCombinations extends Product {
 
-  createCombination(size, color) {
-    return this.client
-      .pause(3000)
-      .waitForExistAndClick(size)
-      .pause(3000)
-      .waitForExistAndClick(color)
-      .pause(3000)
+  async createCombination(size, color) {
+    await page.waitFor(3000);
+    await this.waitForExistAndClick(size);
+    await page.waitFor(3000);
+    await this.waitForExistAndClick(color);
+    await page.waitFor(3000);
   }
 
-  getCombinationData(number, pause = 2000) {
-    return this.client
-      .pause(pause)
-      .waitForExist(AddProductPage.combination_panel.replace('%NUMBER', number), 90000)
-      .then(() => this.client.getAttribute(AddProductPage.combination_panel.replace('%NUMBER', number), 'data'))
-      .then((text) => global.combinationId = text);
+  async getCombinationData(number, pause = 2000) {
+    await page.waitFor(pause);
+    await this.waitForExist(AddProductPage.combination_panel.replace('%NUMBER', number), 90000);
+    await page.$eval(AddProductPage.combination_panel.replace('%NUMBER', number), (el) => el.getAttribute('data')).then((value) => {
+      global.combinationId = value;
+    });
   }
 
   goToEditCombination() {

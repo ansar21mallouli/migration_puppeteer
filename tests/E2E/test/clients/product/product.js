@@ -116,12 +116,11 @@ class Product extends CommonClient {
     await this.waitAndSetValue(selector, price);
   }
 
-  setVariationsQuantity(addProductPage, value) {
-    return this.client
-      .pause(4000)
-      .waitAndSetValue(addProductPage.var_selected_quantitie, value)
-      .scrollTo(addProductPage.combinations_thead)
-      .waitForExistAndClick(addProductPage.save_quantitie_button);
+  async setVariationsQuantity(addProductPage, value) {
+    await page.waitFor(4000);
+    await this.waitAndSetValue(addProductPage.var_selected_quantitie, value);
+    await this.scrollTo(addProductPage.combinations_thead);
+    await this.waitForExistAndClick(addProductPage.save_quantitie_button);
   }
 
   selectFeature(addProductPage, name, value, number) {

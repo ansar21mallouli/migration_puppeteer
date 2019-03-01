@@ -116,7 +116,10 @@ let secondCustomerData = {
 
 scenario('Create order in the Back Office', () => {
   scenario('Login in the Back Office', client => {
-    test('should open the browser', () => client.open());
+    test('should open the browser', async () => {
+      await client.open();
+      await client.startTracing('FullCreateOrderBO');
+    });
     test('should login successfully in the Back Office', () => client.signInBO(AccessPageBO));
   }, 'order');
 
@@ -142,7 +145,7 @@ scenario('Create order in the Back Office', () => {
         return promise
           .then(() => client.waitAndSetValue(HomePage.search_input, productData[0].name + date_time))
           .then(() => client.waitForExistAndClick(HomePage.search_icon))
-          .then(() => client.waitForExistAndClick(productPage.productLink.replace('%PRODUCTNAME', productData[0].name + date_time)));
+          .then(() => client.waitForExistAndClick(productPage.productLink.replace('%PRODUCTNAME', productData[0].name.toLowerCase() + date_time)));
       });
       test('should choose "M" from size list', () => client.waitAndSelectByValue(productPage.first_product_size, '2'));
       test('should set the product "Quantity" input', () => client.waitAndSetValue(productPage.first_product_quantity, '4'));

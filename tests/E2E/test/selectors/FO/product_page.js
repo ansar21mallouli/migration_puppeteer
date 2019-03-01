@@ -46,7 +46,7 @@ module.exports = {
     category_page: '//*[@id="category"]',
     left_column_block: '//*[@id="left-column"]',
     pagination_block: '//*[@id="js-product-list"]/nav',
-    productLink: '//*[@id="js-product-list"]//a[contains(text(), "%PRODUCTNAME")]',
+    productLink: '#js-product-list h2[class*=title] > a[href*=%PRODUCTNAME]',
     product_feature_block: '#product-details > section > dl',
     value_feature_text: '//*[@id="product-details"]/section//dd/br',
     product_value_text: '#product-details > section dd:%B-of-type',

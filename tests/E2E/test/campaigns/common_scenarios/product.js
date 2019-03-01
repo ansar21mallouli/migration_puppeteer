@@ -88,7 +88,7 @@ module.exports = {
 
       if (productData.hasOwnProperty('attribute')) {
         scenario('Add Attribute', client => {
-          test('should select the "Product with combination" radio button', () => client.scrollWaitForExistAndClick(AddProductPage.variations_type_button));
+          test('should select the "Product with combination" radio button', () => client.waitForExistAndClick(AddProductPage.variations_type_button));
           test('should go to "Combinations" tab', () => client.scrollWaitForExistAndClick(AddProductPage.variations_tab));
           test('should select the variation', () => {
             if (productData.type === 'combination') {
@@ -124,7 +124,7 @@ module.exports = {
             return promise
               .then(() => client.isVisible(AddProductPage.var_selected))
               .then(() => {
-                if (global.ps_mode_dev && !global.isVisible) {
+                if (!global.isVisible) {
                   client.refresh();
                 } else {
                   client.pause(0);

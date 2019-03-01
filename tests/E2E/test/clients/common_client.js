@@ -279,22 +279,25 @@ class CommonClient {
 
   async checkAttributeValue(selector, attribute, textToCheckWith, parameter = 'equal', wait = 0) {
     await page.waitFor(wait);
-    await page.$eval(selector, (el, attribute) => el.getAttribute(attribute), attribute).then((value) => {
-      switch (parameter) {
-        case 'contain': {
-          expect(value).to.be.contain(textToCheckWith);
-          break;
-        }
-        case 'equal': {
-          expect(value).to.be.equal(textToCheckWith);
-          break;
-        }
-        case 'notequal': {
-          expect(value).to.not.equal(textToCheckWith);
-          break;
-        }
+    await page.waitFor(selector);
+    let value = await page.evaluate((selector, attribute) => {
+      let elem = document.querySelector(selector);
+      return elem.attribute;
+    }, selector, attribute);
+    switch (parameter) {
+      case 'contain': {
+        expect(value).to.be.contain(textToCheckWith);
+        break;
       }
-    });
+      case 'equal': {
+        expect(value).to.be.equal(textToCheckWith);
+        break;
+      }
+      case 'notequal': {
+        expect(value).to.not.equal(textToCheckWith);
+        break;
+      }
+    }
   }
 
   async signOutFO(selector) {
@@ -325,6 +328,22 @@ class CommonClient {
         global.tab[globalVar] = text;
       });
     }
+  }
+
+  async switchWindow(id, wait = 0) {
+    await page.waitFor(5000, {waituntil: 'networkidle2'});
+    await page.waitFor(wait);
+    page = await this.getPage(id);
+    await page.bringToFront();
+    await page._client.send('Emulation.clearDeviceMetricsOverride');
+  }
+
+  async getAttributeInVar(selector, attribute, globalVar, timeout = 90000) {
+    await this.waitForExist(selector, timeout);
+    let variable = await page.$eval(selector, (el, attribute) => {
+      return el.getAttribute(attribute);
+    }, attribute);
+    global.tab[globalVar] = await variable;
   }
 }
 

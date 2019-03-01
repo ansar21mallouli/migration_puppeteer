@@ -20,10 +20,9 @@ class OnBoarding extends CommonClient {
       });
   }
 
-  stopOnBoarding(selector) {
+  async stopOnBoarding(selector) {
     if (global.isVisible) {
-      return this.client
-        .waitForExistAndClick(selector);
+      await this.waitForExistAndClick(selector);
     }
   }
 

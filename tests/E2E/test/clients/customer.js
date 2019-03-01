@@ -49,6 +49,16 @@ class Customer extends CommonClient {
     return await this.client.pause(1000)
   }
 
+  async checkCustomerDetail(selector, textToCheckWith) {
+    await page.waitFor(2000);
+    await page.waitFor(selector);
+    let value = await page.evaluate((selector) => {
+      let elem = document.querySelector(selector);
+      return elem.value;
+    }, selector);
+    expect(value).to.be.equal(textToCheckWith);
+  }
+
 }
 
 module.exports = Customer;
